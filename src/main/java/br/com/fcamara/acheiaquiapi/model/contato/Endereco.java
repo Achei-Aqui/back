@@ -25,9 +25,7 @@ public class Endereco {
 
     }
 
-    public Endereco(Long id, Contato contato, String cep, String rua, String numero, String cidade, String bairro, String estado) {
-        this.id = id;
-        this.contato = contato;
+    public Endereco(String cep, String rua, String numero, String cidade, String bairro, String estado) {
         this.cep = cep;
         this.rua = rua;
         this.numero = numero;
@@ -40,17 +38,6 @@ public class Endereco {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Contato getContato() {
-        return contato;
-    }
-
-    public void setContato(Contato contato) {
-        this.contato = contato;
-    }
 
     public String getCep() {
         return cep;
