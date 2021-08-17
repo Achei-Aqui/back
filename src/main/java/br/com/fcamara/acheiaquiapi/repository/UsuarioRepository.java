@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     public Optional<Usuario> findBycnpj(String cnpj);
+
+    @Override
+    public Optional<Usuario> findById(Long id);
 }
