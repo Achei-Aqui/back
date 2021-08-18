@@ -1,6 +1,5 @@
 package br.com.fcamara.acheiaquiapi.config.security;
 
-import br.com.fcamara.acheiaquiapi.model.Usuario;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/contatos")
                 .access("hasRole('COMPRADOR') or hasRole('FORNECEDOR')")// ROLE PARA ACESSO DA PAGINA CONTATOS
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -1,4 +1,4 @@
-package br.com.fcamara.acheiaquiapi.model;
+package br.com.fcamara.acheiaquiapi.model.authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 

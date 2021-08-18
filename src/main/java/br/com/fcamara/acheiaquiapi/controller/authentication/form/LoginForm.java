@@ -1,4 +1,4 @@
-package br.com.fcamara.acheiaquiapi.controller.form;
+package br.com.fcamara.acheiaquiapi.controller.authentication.form;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

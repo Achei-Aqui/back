@@ -1,16 +1,14 @@
-package br.com.fcamara.acheiaquiapi.controller;
+package br.com.fcamara.acheiaquiapi.controller.authentication;
 
 import br.com.fcamara.acheiaquiapi.config.security.TokenService;
-import br.com.fcamara.acheiaquiapi.controller.dto.TokenDto;
-import br.com.fcamara.acheiaquiapi.controller.form.LoginForm;
-import br.com.fcamara.acheiaquiapi.model.Usuario;
+import br.com.fcamara.acheiaquiapi.controller.authentication.dto.TokenDto;
+import br.com.fcamara.acheiaquiapi.controller.authentication.form.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

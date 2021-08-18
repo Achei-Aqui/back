@@ -1,6 +1,6 @@
 package br.com.fcamara.acheiaquiapi.controller;
 
-import br.com.fcamara.acheiaquiapi.model.Usuario;
+import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import br.com.fcamara.acheiaquiapi.repository.ContatoRepository;
 import br.com.fcamara.acheiaquiapi.repository.EnderecoRepository;

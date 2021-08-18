@@ -1,11 +1,10 @@
-package br.com.fcamara.acheiaquiapi.model;
+package br.com.fcamara.acheiaquiapi.model.authentication;
 
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

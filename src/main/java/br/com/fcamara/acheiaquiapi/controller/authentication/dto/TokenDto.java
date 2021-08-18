@@ -1,4 +1,4 @@
-package br.com.fcamara.acheiaquiapi.controller.dto;
+package br.com.fcamara.acheiaquiapi.controller.authentication.dto;
 
 public class TokenDto {
 

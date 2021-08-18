@@ -1,6 +1,6 @@
 package br.com.fcamara.acheiaquiapi.config.security;
 
-import br.com.fcamara.acheiaquiapi.model.Usuario;
+import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
