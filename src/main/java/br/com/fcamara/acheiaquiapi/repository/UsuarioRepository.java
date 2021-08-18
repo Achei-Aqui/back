@@ -19,5 +19,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Override
     public Optional<Usuario> findById(Long id);
 
-//    @Query(value = "SELECT u FROM Usuario u where u.id = 1")
 }
