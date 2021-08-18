@@ -21,7 +21,7 @@ public class Usuario implements UserDetails {
     private String senha;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Perfil> perfis = new ArrayList<>();
+    private List<Perfil> perfis;
 
     @OneToOne
     @JoinColumn(name = "contato_id", referencedColumnName = "id")

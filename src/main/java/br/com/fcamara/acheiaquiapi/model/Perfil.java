@@ -36,4 +36,9 @@ public class Perfil implements GrantedAuthority {
     public String getAuthority() {
         return this.nome;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }
