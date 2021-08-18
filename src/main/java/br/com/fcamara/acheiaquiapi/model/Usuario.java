@@ -1,5 +1,6 @@
 package br.com.fcamara.acheiaquiapi.model;
 
+import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,23 +21,22 @@ public class Usuario implements UserDetails {
     private String senha;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Perfil> perfis = new ArrayList<>();
+    private List<Perfil> perfis;
 
+    @OneToOne
+    @JoinColumn(name = "contato_id", referencedColumnName = "id")
+    private Contato contato;
 
-    public String getCnpj() {
-        return cnpj;
+    public Usuario() {
     }
 
-    public void setCnpj(String cnpj) {
+    public Usuario(Long id, String cnpj, String email, String senha, List<Perfil> perfis, Contato contato) {
+        this.id = id;
         this.cnpj = cnpj;
-    }
-
-    public List<Perfil> getPerfis() {
-        return perfis;
-    }
-
-    public void setPerfis(List<Perfil> perfis) {
+        this.email = email;
+        this.senha = senha;
         this.perfis = perfis;
+        this.contato = contato;
     }
 
     public Long getId() {
@@ -47,11 +47,11 @@ public class Usuario implements UserDetails {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getCnpj() {
         return cnpj;
     }
 
-    public void setNome(String nome) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
@@ -69,6 +69,22 @@ public class Usuario implements UserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<Perfil> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(List<Perfil> perfis) {
+        this.perfis = perfis;
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 
     @Override
@@ -105,4 +121,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

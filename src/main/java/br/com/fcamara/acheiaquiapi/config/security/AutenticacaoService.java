@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,7 @@ public class AutenticacaoService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String cnpj) throws UsernameNotFoundException {
         Optional<Usuario> optional = repository.findBycnpj(cnpj);
+
         if(optional.isPresent()) {
             return optional.get();
         }

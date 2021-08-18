@@ -41,7 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/fornecedores").hasRole("COMPRADOR")
                 .antMatchers(HttpMethod.GET, "/compradores").hasRole("FORNECEDOR")
-                .antMatchers(HttpMethod.GET, "/contatos").permitAll()
+                .antMatchers(HttpMethod.GET, "/contatos")
+                .access("hasRole('COMPRADOR') or hasRole('FORNECEDOR')")// ROLE PARA ACESSO DA PAGINA CONTATOS
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
