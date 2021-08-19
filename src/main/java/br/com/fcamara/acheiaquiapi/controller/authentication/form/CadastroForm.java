@@ -1,6 +1,7 @@
 package br.com.fcamara.acheiaquiapi.controller.authentication.form;
 
 
+import br.com.fcamara.acheiaquiapi.config.validacao.ValidadorCNPJService;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Categoria;
@@ -50,6 +51,10 @@ public class CadastroForm {
     private String estado;
     @NotNull
     private String rua;
+
+    @NotNull
+    private String complemento;
+
     private String numero;
 
     public Endereco criarEndereco() {
@@ -59,6 +64,7 @@ public class CadastroForm {
         endereco.setCidade(cidade);
         endereco.setEstado(estado);
         endereco.setRua(rua);
+        endereco.setComplemento(complemento);
         endereco.setNumero(numero);
         return endereco;
     }
@@ -74,6 +80,7 @@ public class CadastroForm {
 
     public Usuario criarUsuario(Contato contato, PerfilRepository perfilRepository) {
         Usuario usuario = new Usuario();
+        ValidadorCNPJService.validar(cnpj);
         usuario.setCnpj(cnpj);
         usuario.setEmail(email);
 
@@ -200,5 +207,14 @@ public class CadastroForm {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    public String getComplemento() {
+
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 }

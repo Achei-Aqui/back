@@ -15,8 +15,6 @@
 	<description>Api de um projeto de contatos empresariais</description>
 	<properties>
 		<java.version>16</java.version>
-		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>iso-8859-1</project.reporting.outputEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
