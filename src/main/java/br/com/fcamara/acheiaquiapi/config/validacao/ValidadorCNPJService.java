@@ -42,7 +42,7 @@ public  class ValidadorCNPJService {
     }
 
     public static void validarCalculoPrimeiroDigito(String cnpj) {
-        char digito13;
+        int digito13;
         int soma, i, resto, numero, peso;
 
         try {
@@ -59,12 +59,12 @@ public  class ValidadorCNPJService {
 
             resto = soma % 11;
             if(resto > 1) {
-                digito13 =  (char) ((11 - resto) + 48 );
+                digito13 =  (11 - resto);
             } else {
                 digito13 = 0;
             }
 
-            if(cnpj.charAt(12) != digito13) {
+            if( (int) cnpj.charAt(12) - 48 != digito13) {
                 throw new InputMismatchException();
             }
 
@@ -74,7 +74,7 @@ public  class ValidadorCNPJService {
     }
 
     public static void validarCalculoSegundoDigito(String cnpj) {
-        char digito14;
+        int digito14;
         int soma, i, resto, numero, peso;
 
         try {
@@ -91,12 +91,12 @@ public  class ValidadorCNPJService {
 
             resto = soma % 11;
             if(resto > 1) {
-                digito14 = (char) ((11 - resto) + 48);
+                digito14 = (11 - resto);
             } else {
                 digito14 = 0;
             }
 
-            if(cnpj.charAt(13) != digito14) {
+            if( cnpj.charAt(13) - 48 != digito14) {
                 throw new InputMismatchException();
             }
 
@@ -105,11 +105,4 @@ public  class ValidadorCNPJService {
         }
     }
 
-    //123456789-00
-    //987
-    //cpnj os ultimos dois digitos s�o os digitos verificadores
-    // tem um peso que come�a a partir do 2 e vai at� o 9 quando chega no 10 volta ao 2 e � multiplicado pelo numero e come�a de tras pra frente
-    // e depois divide a primeira soma pelo numero 11 e ve o resto, se for 0 ou 1 sera 0 o digito, senao � feito 11 - RESTO = 8
-
-    //usa os 13 primeiro digitos do cpnj junto com o primeiro dv , do 13� at� o 1�, fazendo mesmo calculo
 }
