@@ -2,12 +2,10 @@ package br.com.fcamara.acheiaquiapi.config.validacao;
 
 import org.springframework.stereotype.Service;
 
-import java.util.InputMismatchException;
-
 @Service
 public  class ValidadorCNPJService {
 
-    public static void validar(String cnpj) {
+    public static void validar(String cnpj) throws CnpjInvalidoException {
         cnpj = cnpj.replace(".", "");
         cnpj = cnpj.replace("/", "");
         cnpj = cnpj.replace("-", "");
@@ -41,7 +39,7 @@ public  class ValidadorCNPJService {
         }
     }
 
-    public static void validarCalculoPrimeiroDigito(String cnpj) {
+    public static void validarCalculoPrimeiroDigito(String cnpj) throws CnpjInvalidoException {
         int digito13;
         int soma, i, resto, numero, peso;
 
@@ -65,15 +63,15 @@ public  class ValidadorCNPJService {
             }
 
             if( (int) cnpj.charAt(12) - 48 != digito13) {
-                throw new InputMismatchException();
+                throw new CnpjInvalidoException();
             }
 
-        } catch (InputMismatchException erro) {
-            throw new RuntimeException(); // CPNJ INVALO EXCEPTION
+        } catch (Exception erro) {
+            throw new CnpjInvalidoException();
         }
     }
 
-    public static void validarCalculoSegundoDigito(String cnpj) {
+    public static void validarCalculoSegundoDigito(String cnpj) throws CnpjInvalidoException {
         int digito14;
         int soma, i, resto, numero, peso;
 
@@ -97,11 +95,11 @@ public  class ValidadorCNPJService {
             }
 
             if( cnpj.charAt(13) - 48 != digito14) {
-                throw new InputMismatchException();
+                throw new CnpjInvalidoException();
             }
 
-        } catch (InputMismatchException erro) {
-            throw new RuntimeException(); // CNPJ INVALIDO EXCEPTIoN
+        } catch (Exception erro) {
+            throw new CnpjInvalidoException();
         }
     }
 
