@@ -1,14 +1,15 @@
 package br.com.fcamara.acheiaquiapi.controller;
 
+import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.CategoriaInexistenteException;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
+import br.com.fcamara.acheiaquiapi.model.contato.Categoria;
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import br.com.fcamara.acheiaquiapi.repository.ContatoRepository;
 import br.com.fcamara.acheiaquiapi.repository.EnderecoRepository;
 import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -43,20 +45,10 @@ public class ContatosController {
 
         List<Contato> contatos = new ArrayList<>();
 
-        // Descobre o nome do usuario logado
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
+        List<Perfil> perfis = construirListaDePerfilUsandoUsuarioLogado();
 
-        // Descobre o tipo de usuario dos outros usuarios logados
-        Perfil tipoDosOutrosUsuarios = tipoDeUsuarioDosOutrosContatos(username);
-
-        // Cria a lista dos perfis desejados usando o tipo do usuario descoberto anteriormente
-        List<Perfil> perfis = new ArrayList<>();
-        Perfil perfil = new Perfil(tipoDosOutrosUsuarios.getId(), tipoDosOutrosUsuarios.getNome());
-        perfis.add(perfil);
-
-        // Faz um for para adicionar apenas os contatos de cada usuario do perfil desejado
         List<Usuario> usuarios = usuarioRepository.findAllByPerfisIn(perfis);
+
         for ( Usuario usuario :
              usuarios ) {
             contatos.add(usuario.getContato());
@@ -65,9 +57,50 @@ public class ContatosController {
         return contatos;
     }
 
+    @GetMapping("/{categoria}")
+    public List<Contato> listaDeContatosFiltradaPorCategoria(@PathVariable String categoria) {
+        List<Contato> contatos = new ArrayList<>();
 
-    public Perfil tipoDeUsuarioDosOutrosContatos(String username) {
-            Optional<Usuario> optional = usuarioRepository.findBycnpj(username);
+        try {
+            Categoria categoriaEnum = Categoria.valueOf(categoria.toUpperCase(Locale.ROOT));
+
+            List<Perfil> perfis = construirListaDePerfilUsandoUsuarioLogado();
+
+            List<Usuario> usuariosPorCategoria = usuarioRepository.findAllByPerfisInAndContato_Categoria(perfis, categoriaEnum);
+
+            for (Usuario usuario:
+                    usuariosPorCategoria) {
+                contatos.add(usuario.getContato());
+            }
+
+            return contatos;
+
+        } catch(IllegalArgumentException ex) {
+
+            throw new CategoriaInexistenteException();
+
+        }
+
+    }
+
+    public List<Perfil> construirListaDePerfilUsandoUsuarioLogado() {
+        // Descobre o nome do usuario logado
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Descobre o tipo de usuario dos outros usuarios logados
+        String cnpj = ((UserDetails) principal).getUsername();
+        Perfil tipoDosOutrosUsuarios = tipoDosOutrosUsuarios(cnpj);
+
+        // Cria a lista dos perfis desejados usando o tipo do usuario descoberto anteriormente
+        List<Perfil> perfis = new ArrayList<>();
+        Perfil perfil = new Perfil(tipoDosOutrosUsuarios.getId(), tipoDosOutrosUsuarios.getNome());
+        perfis.add(perfil);
+
+        return perfis;
+    }
+
+    public Perfil tipoDosOutrosUsuarios(String cnpj) {
+            Optional<Usuario> optional = usuarioRepository.findBycnpj(cnpj);
             String role = optional.get().getPerfis().get(0).toString();
 
             if(role.equals("ROLE_COMPRADOR")) {
