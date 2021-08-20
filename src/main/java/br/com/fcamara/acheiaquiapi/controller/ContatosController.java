@@ -1,7 +1,9 @@
 package br.com.fcamara.acheiaquiapi.controller;
 
+import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
+import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,38 +28,46 @@ public class ContatosController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PerfilRepository perfilRepository;
+
     @GetMapping
     public List<Contato> listaDeContatos() {
 
         List<Contato> contatos = new ArrayList<>();
 
-        //CONSERTAR ESSE FIND ALL PRA FILTRAR MELHOR
-        List<Usuario> usuarios = usuarioRepository.findAll();
-
+        // Descobre o nome do usuario logado
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
 
-        //System.out.println(optional.get().getPerfis().get(0).toString()); -> ROLE
+        // Descobre o tipo de usuario dos outros usuarios logados
+        Perfil tipoDosOutrosUsuarios = tipoDeUsuarioDosOutrosContatos(username);
 
-        String role = userRole(username);
+        // Cria a lista dos perfis desejados usando o tipo do usuario descoberto anteriormente
+        List<Perfil> perfis = new ArrayList<>();
+        Perfil perfil = new Perfil(tipoDosOutrosUsuarios.getId(), tipoDosOutrosUsuarios.getNome());
+        perfis.add(perfil);
 
-        for( Usuario usuario : usuarios ) {
-            UserDetails details = userDetailsService.loadUserByUsername(usuario.getCnpj());
-            if(details.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(role))) {
-                contatos.add(usuario.getContato());
-            }
+        // Faz um for para adicionar apenas os contatos de cada usuario do perfil desejado
+        List<Usuario> usuarios = usuarioRepository.findAllByPerfisIn(perfis);
+        for ( Usuario usuario :
+             usuarios ) {
+            contatos.add(usuario.getContato());
         }
 
         return contatos;
     }
 
-    public String userRole(String username) {
+    public Perfil tipoDeUsuarioDosOutrosContatos(String username) {
             Optional<Usuario> optional = usuarioRepository.findBycnpj(username);
             String role = optional.get().getPerfis().get(0).toString();
 
             if(role.equals("ROLE_COMPRADOR")) {
-                return "ROLE_FORNECEDOR";
+                Optional<Perfil> perfilOptional = perfilRepository.findByNome("ROLE_FORNECEDOR");
+                return perfilOptional.get();
             }
-            return "ROLE_COMPRADOR";
+
+            Optional<Perfil> perfilOptional = perfilRepository.findByNome("ROLE_COMPRADOR");
+            return perfilOptional.get();
     }
 }
