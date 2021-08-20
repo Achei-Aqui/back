@@ -38,10 +38,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/fornecedores").hasRole("COMPRADOR")
-                .antMatchers(HttpMethod.GET, "/compradores").hasRole("FORNECEDOR")
                 .antMatchers(HttpMethod.GET, "/contatos")
                 .access("hasRole('COMPRADOR') or hasRole('FORNECEDOR')")// ROLE PARA ACESSO DA PAGINA CONTATOS
+                .antMatchers(HttpMethod.DELETE, "/contatos")
+                .access("hasRole('COMPRADOR') or hasRole('FORNECEDOR')")
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .anyRequest().authenticated()

@@ -3,15 +3,17 @@ package br.com.fcamara.acheiaquiapi.controller;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
+import br.com.fcamara.acheiaquiapi.repository.ContatoRepository;
+import br.com.fcamara.acheiaquiapi.repository.EnderecoRepository;
 import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +23,20 @@ import java.util.Optional;
 @RequestMapping("/contatos")
 public class ContatosController {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private PerfilRepository perfilRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PerfilRepository perfilRepository;
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private ContatoRepository contatoRepository;
 
     @GetMapping
     public List<Contato> listaDeContatos() {
@@ -58,6 +65,7 @@ public class ContatosController {
         return contatos;
     }
 
+
     public Perfil tipoDeUsuarioDosOutrosContatos(String username) {
             Optional<Usuario> optional = usuarioRepository.findBycnpj(username);
             String role = optional.get().getPerfis().get(0).toString();
@@ -69,5 +77,23 @@ public class ContatosController {
 
             Optional<Perfil> perfilOptional = perfilRepository.findByNome("ROLE_COMPRADOR");
             return perfilOptional.get();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deletarSeuContato() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        Optional<Usuario> optional = usuarioRepository.findBycnpj(username);
+        if(optional.isPresent()) {
+            String cnpj = optional.get().getCnpj();
+            Usuario usuario = optional.get();
+
+            enderecoRepository.deleteById(usuario.getContato().getEndereco().getId());
+            contatoRepository.deleteById(usuario.getContato().getId());
+            usuarioRepository.deleteById(usuario.getId());
+
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

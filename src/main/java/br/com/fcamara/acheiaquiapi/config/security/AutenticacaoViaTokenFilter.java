@@ -2,6 +2,7 @@ package br.com.fcamara.acheiaquiapi.config.security;
 
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
@@ -40,9 +42,12 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
     private void autenticarCliente(String token) {
         Long idUsuario = tokenService.getIdUsuario(token);
-        Usuario usuario = this.usuarioRepository.findById(idUsuario).get();
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Optional<Usuario> optional = this.usuarioRepository.findById(idUsuario);
+        if(optional.isPresent()) {
+            Usuario usuario = optional.get();
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 
     private String recuperarToken(HttpServletRequest request) {
