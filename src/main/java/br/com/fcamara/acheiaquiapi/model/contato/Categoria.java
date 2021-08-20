@@ -6,5 +6,9 @@ public enum Categoria {
     PERFUMARIA,
     ELETRODOMESTICOS,
     ELETROELETRONICO,
+    BRINQUEDOS,
+    MOVEIS,
+    ESPORTE,
+    VESTUARIO
 
 }

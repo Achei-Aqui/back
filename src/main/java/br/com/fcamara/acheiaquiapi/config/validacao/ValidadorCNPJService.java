@@ -15,7 +15,7 @@ public  class ValidadorCNPJService {
         try {
             Long.parseLong(cnpj);
         } catch (NumberFormatException e) {
-            throw new RuntimeException();
+            throw new CnpjInvalidoException();
         }
 
         validarCalculoPrimeiroDigito(cnpj);
@@ -35,7 +35,7 @@ public  class ValidadorCNPJService {
                 cnpj.equals("88888888888888") ||
                 cnpj.equals("99999999999999") ||
                 (cnpj.length() != 14)) {
-            throw new RuntimeException();
+            throw new CnpjInvalidoException();
         }
     }
 

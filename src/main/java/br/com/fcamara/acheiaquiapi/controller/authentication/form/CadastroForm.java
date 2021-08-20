@@ -2,16 +2,19 @@ package br.com.fcamara.acheiaquiapi.controller.authentication.form;
 
 
 import br.com.fcamara.acheiaquiapi.config.validacao.ValidadorCNPJService;
+import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.CategoriaInexistenteException;
+import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.TipoDeUsuarioInexistenteException;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Categoria;
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import br.com.fcamara.acheiaquiapi.model.contato.Endereco;
 import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
-import com.sun.istack.NotNull;
+import org.apache.commons.lang3.EnumUtils;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,40 +24,45 @@ public class CadastroForm {
     private String tipo;
 
     @NotNull
-    @Pattern(regexp = "^\\d{2}.\\d{3}.\\d{3}/\\d{4}-\\d{2}$")
+    @NotBlank
+    @Pattern(regexp = "^\\d{2}.\\d{3}.\\d{3}/\\d{4}-\\d{2}$", message = "O cpnj deve possuir o padrão XX.XXX.XXX/XXXX-XX")
     private String cnpj;
 
-    @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&?*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotNull @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&?*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "O email deve possuir o padrão XXXXX@XXXX.XXX")
     private String email;
 
-    @NotNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
+    @NotNull @NotBlank
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+            message = "A senha deve possuir pelo menos um numero, pelo menos uma letra minuscula, " +
+                    "pelo menos uma letra maiscula, pelo menos um caracter especial, probibido espaços e possuir 8 a 20 caracteres")
     private String senha;
 
     @NotNull
     private Categoria categoria;
-    @NotNull
+
+    @NotNull @NotBlank
+    @Length(min = 4, max = 100, message = "O nome deve possuir entre 4 e 100 caracteres")
     private String nome;
 
-    @NotNull
-    @Pattern(regexp="^((\\(\\d{2}\\))|\\d{2})[- .]?\\d{5}[- .]?\\d{4}$")
+    @NotNull @NotBlank
+    @Pattern(regexp= "^((\\(\\d{2}\\))|\\d{2})[- .]?(\\d{5}|\\d{4})[- .]?\\d{4}$", message = "O telefone deve possuir o padrão XX XXXXX-XXXX ou XX XXXX-XXXX")
     private String telefone;
-
-    @NotNull
+    @NotNull @NotBlank
     private String cep;
-    @NotNull
+    @NotNull @NotBlank
     private String bairro;
-    @NotNull
+    @NotNull @NotBlank
     private String cidade;
-    @NotNull
+    @NotNull @NotBlank
     private String estado;
-    @NotNull
+    @NotNull @NotBlank
     private String rua;
 
-    @NotNull
+    @NotNull @NotBlank
     private String complemento;
 
+    @NotNull @NotBlank
     private String numero;
 
     public Endereco criarEndereco() {
@@ -73,23 +81,26 @@ public class CadastroForm {
         Contato contato = new Contato();
         contato.setNome(nome);
         contato.setTelefone(telefone);
+
         contato.setCategoria(categoria);
+
         contato.setEndereco(endereco);
         return contato;
     }
 
     public Usuario criarUsuario(Contato contato, PerfilRepository perfilRepository) {
         Usuario usuario = new Usuario();
+
         ValidadorCNPJService.validar(cnpj);
         usuario.setCnpj(cnpj);
-        usuario.setEmail(email);
 
+        usuario.setEmail(email);
         usuario.setSenha(
                 encriptarSenha(senha)
         );
 
         Optional<Perfil> tipoDeUsuario = perfilRepository.findByNome(tipo);
-        if(tipoDeUsuario.isPresent()) {
+        if(tipoDeUsuario.isPresent() && (!tipoDeUsuario.get().getNome().equals("ROLE_ADMIN"))) {
             List<Perfil> perfis = new ArrayList<>();
             perfis.add(tipoDeUsuario.get());
 
@@ -97,7 +108,7 @@ public class CadastroForm {
             usuario.setPerfis(perfis);
             return usuario;
         }
-        throw new RuntimeException(); //EXCEPTION DE TIPO ERRADO
+        throw new TipoDeUsuarioInexistenteException(); //EXCEPTION DE TIPO ERRADO COMPRADOR 0U VENDEDOR
     }
 
     public String encriptarSenha(String senha) {
