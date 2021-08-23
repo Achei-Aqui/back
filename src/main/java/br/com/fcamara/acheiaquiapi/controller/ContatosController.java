@@ -1,15 +1,19 @@
 package br.com.fcamara.acheiaquiapi.controller;
 
 import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.CategoriaInexistenteException;
+import br.com.fcamara.acheiaquiapi.controller.dto.ContatoDto;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Categoria;
-import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import br.com.fcamara.acheiaquiapi.repository.ContatoRepository;
 import br.com.fcamara.acheiaquiapi.repository.EnderecoRepository;
 import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,39 +45,40 @@ public class ContatosController {
     private ContatoRepository contatoRepository;
 
     @GetMapping
-    public List<Contato> listaDeContatos() {
+    public Page<ContatoDto> listaDeContatos(@PageableDefault(sort="cnpj", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable paginacao) {
 
-        List<Contato> contatos = new ArrayList<>();
+//      List<Contato> contatos = new ArrayList<>();
 
         List<Perfil> perfis = construirListaDePerfilUsandoUsuarioLogado();
 
-        List<Usuario> usuarios = usuarioRepository.findAllByPerfisIn(perfis);
+        Page<Usuario> usuarios = usuarioRepository.findAllByPerfisIn(perfis, paginacao);
 
-        for ( Usuario usuario :
-             usuarios ) {
-            contatos.add(usuario.getContato());
-        }
+//        for ( Usuario usuario :
+//             usuarios ) {
+//            contatos.add(usuario.getContato());
+//        }
 
-        return contatos;
+        return ContatoDto.converter(usuarios);
+
     }
 
     @GetMapping("/{categoria}")
-    public List<Contato> listaDeContatosFiltradaPorCategoria(@PathVariable String categoria) {
-        List<Contato> contatos = new ArrayList<>();
+    public Page<ContatoDto> listaDeContatosFiltradaPorCategoria(@PageableDefault(sort="cnpj", direction = Sort.Direction.DESC, page = 0, size = 10)  Pageable paginacao, @PathVariable String categoria ) {
+//        List<Contato> contatos = new ArrayList<>();
 
         try {
             Categoria categoriaEnum = Categoria.valueOf(categoria.toUpperCase(Locale.ROOT));
 
             List<Perfil> perfis = construirListaDePerfilUsandoUsuarioLogado();
 
-            List<Usuario> usuariosPorCategoria = usuarioRepository.findAllByPerfisInAndContato_Categoria(perfis, categoriaEnum);
+            Page<Usuario> usuariosPorCategoria = usuarioRepository.findAllByPerfisInAndContato_Categoria(perfis, categoriaEnum, paginacao);
 
-            for (Usuario usuario:
-                    usuariosPorCategoria) {
-                contatos.add(usuario.getContato());
-            }
+//            for (Usuario usuario:
+//                    usuariosPorCategoria) {
+//                contatos.add(usuario.getContato());
+//            }
 
-            return contatos;
+            return ContatoDto.converter(usuariosPorCategoria);
 
         } catch(IllegalArgumentException ex) {
 

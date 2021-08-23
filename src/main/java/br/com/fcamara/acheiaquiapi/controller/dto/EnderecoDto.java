@@ -1,18 +1,8 @@
-package br.com.fcamara.acheiaquiapi.model.contato;
+package br.com.fcamara.acheiaquiapi.controller.dto;
 
-import javax.persistence.*;
+import br.com.fcamara.acheiaquiapi.model.contato.Endereco;
 
-@Entity
-@Table(name = "endereco")
-public class Endereco {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name =  "id")
-    private Long id;
-
-    @OneToOne(mappedBy = "endereco")
-    private Contato contato;
+public class EnderecoDto {
 
     private String cep;
     private String rua;
@@ -22,22 +12,14 @@ public class Endereco {
     private String estado;
     private String complemento;
 
-    public Endereco() {
-
-    }
-
-    public Endereco(String cep, String rua, String numero, String cidade, String bairro, String estado, String complemento) {
-        this.cep = cep;
-        this.rua = rua;
-        this.numero = numero;
-        this.cidade = cidade;
-        this.bairro = bairro;
-        this.estado = estado;
-        this.complemento = complemento;
-    }
-
-    public Long getId() {
-        return id;
+    public EnderecoDto(Endereco endereco) {
+        this.cep = endereco.getCep();
+        this.rua = endereco.getRua();
+        this.numero = endereco.getNumero();
+        this.cidade = endereco.getCidade();
+        this.bairro = endereco.getBairro();
+        this.estado = endereco.getEstado();
+        this.complemento = endereco.getComplemento();
     }
 
     public String getCep() {

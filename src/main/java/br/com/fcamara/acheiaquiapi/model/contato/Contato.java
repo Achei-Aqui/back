@@ -1,5 +1,7 @@
 package br.com.fcamara.acheiaquiapi.model.contato;
 
+import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
+
 import javax.persistence.*;
 
 @Entity
@@ -29,6 +31,14 @@ public class Contato {
         this.telefone = telefone;
         this.categoria = categoria;
         this.endereco = endereco;
+    }
+
+    public Contato(Usuario usuario) {
+        id = usuario.getContato().getId();
+        nome = usuario.getContato().getNome();
+        telefone = usuario.getContato().getTelefone();
+        categoria = usuario.getContato().getCategoria();
+        endereco = usuario.getContato().getEndereco();
     }
 
     public Long getId() {
