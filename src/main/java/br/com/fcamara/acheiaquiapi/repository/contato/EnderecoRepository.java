@@ -1,4 +1,4 @@
-package br.com.fcamara.acheiaquiapi.repository;
+package br.com.fcamara.acheiaquiapi.repository.contato;
 
 import br.com.fcamara.acheiaquiapi.model.contato.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;

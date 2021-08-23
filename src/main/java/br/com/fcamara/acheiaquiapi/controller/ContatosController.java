@@ -2,11 +2,12 @@ package br.com.fcamara.acheiaquiapi.controller;
 
 import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.CategoriaInexistenteException;
 import br.com.fcamara.acheiaquiapi.controller.dto.ContatoDto;
+import br.com.fcamara.acheiaquiapi.controller.form.AtualizarForm;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Categoria;
-import br.com.fcamara.acheiaquiapi.repository.ContatoRepository;
-import br.com.fcamara.acheiaquiapi.repository.EnderecoRepository;
+import br.com.fcamara.acheiaquiapi.repository.contato.ContatoRepository;
+import br.com.fcamara.acheiaquiapi.repository.contato.EnderecoRepository;
 import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
 import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,23 @@ public class ContatosController {
 
             Optional<Perfil> perfilOptional = perfilRepository.findByNome("ROLE_COMPRADOR");
             return perfilOptional.get();
+    }
+
+    @PutMapping
+    public ResponseEntity<?> atualizarSeuContato(@RequestBody AtualizarForm form) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        Optional<Usuario> optional = usuarioRepository.findBycnpj(username);
+        if(optional.isPresent()) {
+            Usuario usuario = optional.get();
+            Usuario usuarioAtualizado = form.atualizarUsuario(usuario);
+
+            System.out.println(usuarioAtualizado.getEmail());
+            usuarioRepository.save(usuarioAtualizado);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping
