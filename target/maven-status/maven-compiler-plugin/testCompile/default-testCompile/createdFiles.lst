@@ -1,0 +1,5 @@
+br\com\fcamara\acheiaquiapi\config\validacao\ValidadorCNPJServiceTest.class
+br\com\fcamara\acheiaquiapi\controller\authentication\AutenticacaoControllerTest.class
+br\com\fcamara\acheiaquiapi\AcheiaquiApiApplicationTests.class
+br\com\fcamara\acheiaquiapi\repository\UsuarioRepositoryTest.class
+br\com\fcamara\acheiaquiapi\controller\ContatosControllerTest.class
