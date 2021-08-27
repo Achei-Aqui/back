@@ -141,12 +141,12 @@ public class ContatosController {
         String username = ((UserDetails) principal).getUsername();
         Optional<Usuario> optional = usuarioRepository.findBycnpj(username);
         if(optional.isPresent()) {
-            String cnpj = optional.get().getCnpj();
             Usuario usuario = optional.get();
 
-            enderecoRepository.deleteById(usuario.getContato().getEndereco().getId());
-            contatoRepository.deleteById(usuario.getContato().getId());
             usuarioRepository.deleteById(usuario.getId());
+//            contatoRepository.deleteById(usuario.getContato().getId());
+//            enderecoRepository.deleteById(usuario.getContato().getEndereco().getId());
+
 
             return ResponseEntity.ok().build();
         }
