@@ -1,6 +1,6 @@
 package br.com.fcamara.acheiaquiapi.config.security;
 
-import br.com.fcamara.acheiaquiapi.repository.UsuarioRepository;
+import br.com.fcamara.acheiaquiapi.repository.authentication.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

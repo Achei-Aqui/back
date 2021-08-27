@@ -2,15 +2,13 @@ package br.com.fcamara.acheiaquiapi.controller.authentication.form;
 
 
 import br.com.fcamara.acheiaquiapi.config.validacao.ValidadorCNPJService;
-import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.CategoriaInexistenteException;
 import br.com.fcamara.acheiaquiapi.controller.authentication.form.exception.TipoDeUsuarioInexistenteException;
 import br.com.fcamara.acheiaquiapi.model.authentication.Perfil;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.model.contato.Categoria;
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
 import br.com.fcamara.acheiaquiapi.model.contato.Endereco;
-import br.com.fcamara.acheiaquiapi.repository.PerfilRepository;
-import org.apache.commons.lang3.EnumUtils;
+import br.com.fcamara.acheiaquiapi.repository.authentication.PerfilRepository;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

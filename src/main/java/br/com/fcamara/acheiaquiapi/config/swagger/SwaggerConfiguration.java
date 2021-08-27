@@ -5,14 +5,12 @@ import com.google.common.net.HttpHeaders;
 import io.swagger.models.auth.In;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.Parameter;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -31,24 +29,16 @@ public class SwaggerConfiguration {
                 .paths(PathSelectors.ant("/**"))
                 .build()
                 .ignoredParameterTypes(Usuario.class)
-                .securitySchemes(Arrays.asList(new ApiKey("Bearer Token Acess", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
-                .securityContexts(Arrays.asList(securityContext()));
+                .securitySchemes(Arrays.asList(new ApiKey("Bearer", HttpHeaders.AUTHORIZATION, In.HEADER.name())));
     }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.ant("/contatos"))
-                .forPaths(PathSelectors.ant("/contatos/**"))
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Api de Contatos v3.0")
+                .description("Lista de compradores e fornecedores")
+                .version("3.0.0")
+                .contact(new Contact("William Jonathan", "linkedin.com/in/william-jonathan-036599208/", "williamjonathansb@gmail.com"))
                 .build();
-    }
-
-    List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope
-                = new AuthorizationScope("Contato", "acessaAListaOposta");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("Token", authorizationScopes));
     }
 
 }
