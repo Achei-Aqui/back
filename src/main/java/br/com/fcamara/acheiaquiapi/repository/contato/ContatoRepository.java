@@ -1,11 +1,12 @@
 package br.com.fcamara.acheiaquiapi.repository.contato;
 
 import br.com.fcamara.acheiaquiapi.model.contato.Contato;
+import br.com.fcamara.acheiaquiapi.model.contato.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.List;
-
+@Repository
 public interface ContatoRepository extends JpaRepository<Contato, Long> {
+
 
 }

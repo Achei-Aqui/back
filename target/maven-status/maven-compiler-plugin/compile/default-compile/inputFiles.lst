@@ -18,6 +18,7 @@ C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\s
 C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\AcheiaquiApiApplication.java
 C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\repository\contato\ContatoRepository.java
 C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\controller\contato\dto\ContatoDto.java
+C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\config\security\TestSecurityConfiguration.java
 C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\config\swagger\SwaggerConfiguration.java
 C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\controller\authentication\form\CadastroForm.java
 C:\Users\william.brito\Google Drive\Files\2 - FCamara\Desafios\Achei aqui\back\src\main\java\br\com\fcamara\acheiaquiapi\repository\contato\EnderecoRepository.java

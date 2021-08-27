@@ -57,7 +57,7 @@ public class CadastroForm {
     @NotNull @NotBlank
     private String rua;
 
-    @NotNull @NotBlank
+    @NotNull
     private String complemento;
 
     @NotNull @NotBlank

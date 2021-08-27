@@ -33,6 +33,23 @@ class UsuarioRepositoryTest {
     private ContatoRepository contatoRepository;
 
     @Test
+    public void deveSalvarUmUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuarioRepository.save(usuario);
+        Optional<Usuario> optional = usuarioRepository.findById(1L);
+        assertTrue(optional.isPresent());
+    }
+
+    @Test
+    public void deveDeletarUmUsuario() {
+        Usuario usuariox = new Usuario();
+        usuariox.setId(2L);
+        usuarioRepository.save(usuariox);
+        usuarioRepository.deleteById(2L);
+    }
+
+    @Test
     public void deveCarregarUmUsuarioAoBuscarPeloSeuCNPJ() {
         Usuario usuario = new Usuario();
         String cnpj = "03.775.758/0001-90";
@@ -65,15 +82,23 @@ class UsuarioRepositoryTest {
         contatoRepository.save(contato);
         usuarioRepository.save(usuario);
 
-        List<Usuario> usarios = usuarioRepository.findAllByContato_Categoria(ALIMENTOS);
-        assertEquals(1, usarios.size());
+        List<Usuario> usuarios = usuarioRepository.findAllByContato_Categoria(ALIMENTOS);
+        assertEquals(1, usuarios.size());
     }
 
     @Test
     public void deveNaoCarregarUmUsuarioInexistente() {
         String cnpj = "49.703.483/0001-80";
 
-        Optional<Usuario> optional = usuarioRepository.findBycnpj(cnpj);
-        assertTrue(optional.isEmpty());
+        Optional<Usuario> optionalPorCnpj = usuarioRepository.findBycnpj(cnpj);
+        List<Usuario> usuarios = usuarioRepository.findAllByContato_Categoria(Categoria.PERFUMARIA);
+        Optional<Usuario> optionalPorId = usuarioRepository.findById(1L);
+
+
+        assertTrue(optionalPorCnpj.isEmpty());
+        assertEquals(0, usuarios.size());
+        assertTrue(optionalPorId.isPresent());
     }
+
+
 }
