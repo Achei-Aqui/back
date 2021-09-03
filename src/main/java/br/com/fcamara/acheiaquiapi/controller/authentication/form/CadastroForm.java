@@ -31,7 +31,7 @@ public class CadastroForm {
     private String email;
 
     @NotNull @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*])(?=\\S+$).{8,20}$",
             message = "A senha deve possuir pelo menos um numero, pelo menos uma letra minuscula, " +
                     "pelo menos uma letra maiscula, pelo menos um caracter especial, probibido espaços e possuir 8 a 20 caracteres")
     private String senha;
