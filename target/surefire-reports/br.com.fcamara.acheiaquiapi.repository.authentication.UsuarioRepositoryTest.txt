@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: br.com.fcamara.acheiaquiapi.repository.authentication.UsuarioRepositoryTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.862 s - in br.com.fcamara.acheiaquiapi.repository.authentication.UsuarioRepositoryTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.44 s - in br.com.fcamara.acheiaquiapi.repository.authentication.UsuarioRepositoryTest

@@ -26,7 +26,7 @@ public class AcheiaquiApiApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:5500");
+				registry.addMapping("/auth").allowedOrigins("http://localhost:5500");
 			}
 		};
 	}
