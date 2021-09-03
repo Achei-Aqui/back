@@ -29,7 +29,8 @@ public class AutenticacaoController {
             Authentication authentication = authManager.authenticate(dadosLogin);
 
             String token = tokenService.gerarToken(authentication);
-            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+            //return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").build();
 
         } catch (AuthenticationException ex) {
             return ResponseEntity.badRequest().build();
