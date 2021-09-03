@@ -21,14 +21,4 @@ public class AcheiaquiApiApplication {
 		logger.info("Api de contatos empresariais iniciada e pronta para receber requisições");
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/auth").allowedOrigins("http://localhost:5500");
-			}
-		};
-	}
-
 }
