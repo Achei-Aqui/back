@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
@@ -21,7 +22,6 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
 
-    @CrossOrigin
     @PostMapping
         public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form) {
         UsernamePasswordAuthenticationToken dadosLogin = form.converter();
