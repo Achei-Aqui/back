@@ -11,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
@@ -23,9 +21,9 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
 
+    @CrossOrigin
     @PostMapping
-        public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form, final HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form) {
         UsernamePasswordAuthenticationToken dadosLogin = form.converter();
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);

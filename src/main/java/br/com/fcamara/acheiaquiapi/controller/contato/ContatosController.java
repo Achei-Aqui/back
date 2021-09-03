@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/contatos")
 public class ContatosController {
@@ -54,6 +53,7 @@ public class ContatosController {
     private ContatoRepository contatoRepository;
 
     @GetMapping
+    @CrossOrigin
     @ApiOperation(value = "Devolve Lista De Contatos - Necessario TOKEN" , authorizations = @Authorization(value = "Bearer"))
     public Page<ContatoDto> listaDeContatos(@PageableDefault(sort="cnpj", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable paginacao) {
 
