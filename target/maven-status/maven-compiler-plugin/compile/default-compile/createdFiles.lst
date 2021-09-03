@@ -22,6 +22,7 @@ br\com\fcamara\acheiaquiapi\controller\authentication\RegistroController.class
 br\com\fcamara\acheiaquiapi\config\validacao\ErroDeCNPJInvalidoHandler.class
 br\com\fcamara\acheiaquiapi\model\authentication\Usuario.class
 br\com\fcamara\acheiaquiapi\model\contato\Categoria.class
+br\com\fcamara\acheiaquiapi\AcheiaquiApiApplication$1.class
 br\com\fcamara\acheiaquiapi\controller\contato\dto\EnderecoDto.class
 br\com\fcamara\acheiaquiapi\repository\contato\EnderecoRepository.class
 br\com\fcamara\acheiaquiapi\controller\authentication\form\exception\handlers\ErroDeCategoriaInexistenteHandler.class
