@@ -2,12 +2,12 @@ package br.com.fcamara.acheiaquiapi.model.contato;
 
 public enum Categoria {
 
-    ALIMENTOS,
+    ALIMENTO,
     PERFUMARIA,
-    ELETRODOMESTICOS,
+    ELETRODOMESTICO,
     ELETROELETRONICO,
-    BRINQUEDOS,
-    MOVEIS,
+    BRINQUEDO,
+    MOVEL,
     ESPORTE,
     VESTUARIO
 

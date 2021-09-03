@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
-import static br.com.fcamara.acheiaquiapi.model.contato.Categoria.ALIMENTOS;
+import static br.com.fcamara.acheiaquiapi.model.contato.Categoria.ALIMENTO;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -77,12 +77,12 @@ class UsuarioRepositoryTest {
         Usuario usuario = new Usuario();
         Contato contato = new Contato();
         usuario.setContato(contato);
-        usuario.getContato().setCategoria(Categoria.ALIMENTOS);
+        usuario.getContato().setCategoria(Categoria.ALIMENTO);
 
         contatoRepository.save(contato);
         usuarioRepository.save(usuario);
 
-        List<Usuario> usuarios = usuarioRepository.findAllByContato_Categoria(ALIMENTOS);
+        List<Usuario> usuarios = usuarioRepository.findAllByContato_Categoria(ALIMENTO);
         assertEquals(1, usuarios.size());
     }
 
