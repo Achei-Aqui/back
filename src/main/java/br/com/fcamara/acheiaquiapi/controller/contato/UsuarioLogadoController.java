@@ -1,5 +1,6 @@
 package br.com.fcamara.acheiaquiapi.controller.contato;
 
+import br.com.fcamara.acheiaquiapi.controller.authentication.dto.UsuarioDto;
 import br.com.fcamara.acheiaquiapi.controller.contato.dto.ContatoDto;
 import br.com.fcamara.acheiaquiapi.model.authentication.Usuario;
 import br.com.fcamara.acheiaquiapi.repository.authentication.PerfilRepository;
@@ -30,15 +31,15 @@ public class UsuarioLogadoController {
     private UsuarioRepository usuarioRepository;
 
     @GetMapping
-    public ResponseEntity<ContatoDto> dadosDoUsuarioLogado() {
+    public ResponseEntity<UsuarioDto> dadosDoUsuarioLogado() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         String cnpj = ((UserDetails) principal).getUsername();
         Optional<Usuario> optionalUsuario = usuarioRepository.findBycnpj(cnpj);
 
         if(optionalUsuario.isPresent()) {
-            ContatoDto contatoUsuarioLogado = new ContatoDto(optionalUsuario.get());
-            return new ResponseEntity<ContatoDto>(contatoUsuarioLogado, HttpStatus.OK);
+            UsuarioDto contatoUsuarioLogado = new UsuarioDto(optionalUsuario.get());
+            return new ResponseEntity<UsuarioDto>(contatoUsuarioLogado, HttpStatus.OK);
         }
         return ResponseEntity.notFound().build();
     }
