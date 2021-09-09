@@ -20,6 +20,7 @@ br\com\fcamara\acheiaquiapi\controller\contato\form\AtualizarForm.class
 br\com\fcamara\acheiaquiapi\config\validacao\ErroDeValidacaoHandler.class
 br\com\fcamara\acheiaquiapi\controller\authentication\RegistroController.class
 br\com\fcamara\acheiaquiapi\config\validacao\ErroDeCNPJInvalidoHandler.class
+br\com\fcamara\acheiaquiapi\controller\contato\UsuarioLogadoController.class
 br\com\fcamara\acheiaquiapi\model\authentication\Usuario.class
 br\com\fcamara\acheiaquiapi\model\contato\Categoria.class
 br\com\fcamara\acheiaquiapi\controller\contato\dto\EnderecoDto.class
