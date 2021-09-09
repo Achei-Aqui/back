@@ -1,6 +1,7 @@
 br\com\fcamara\acheiaquiapi\model\authentication\Perfil.class
 br\com\fcamara\acheiaquiapi\controller\authentication\UsuarioJaExistenteException.class
 br\com\fcamara\acheiaquiapi\controller\authentication\form\LoginForm.class
+br\com\fcamara\acheiaquiapi\controller\authentication\dto\UsuarioDto.class
 br\com\fcamara\acheiaquiapi\controller\authentication\form\exception\handlers\ErroDeTipoDeUsuarioHandler.class
 br\com\fcamara\acheiaquiapi\config\security\AutenticacaoService.class
 br\com\fcamara\acheiaquiapi\config\security\SecurityConfiguration.class
